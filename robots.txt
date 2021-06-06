@@ -1,1 +1,1 @@
-Sitemap: https://fastpages.fast.ai/sitemap.xml
+Sitemap: https://ah161652.github.io/data_science_projects/sitemap.xml
