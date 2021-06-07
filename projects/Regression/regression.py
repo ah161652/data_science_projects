@@ -142,34 +142,34 @@ model_names = ['Linear', 'Ridge', 'Lasso', 'Elastic Net', 'Random Forest', 'KNN'
 
 
 
-# Hyperparmeter tuning on best model
-parameters = {
-    'n_estimators': [50, 100, 200],
-    'criterion': ['mse', 'mae'],
-    'max_features': ['auto', 'sqrt', 'log2'],
-            }
+# # Hyperparmeter tuning on best model
+# parameters = {
+#     'n_estimators': [50, 100, 200],
+#     'criterion': ['mse', 'mae'],
+#     'max_features': ['auto', 'sqrt', 'log2'],
+#             }
 
 
-grid = GridSearchCV(r_forest, param_grid = parameters,n_jobs=-1, scoring='r2', verbose=2)
-grid.fit(x_train, y_train)
-print(grid.best_score_)
-print(grid.best_params_)  
+# grid = GridSearchCV(r_forest, param_grid = parameters,n_jobs=-1, scoring='r2', verbose=2)
+# grid.fit(x_train, y_train)
+# print(grid.best_score_)
+# print(grid.best_params_)  
 
 
 # Use optimised model
-r_forest = RandomForestRegressor()
+r_forest = RandomForestRegressor(criterion='mae', max_features='auto', n_estimators=100)
 r_forest.fit(x_train,y_train)
 predictions = r_forest.predict(x_test)
 score = r2_score(y_test,predictions)
 print(score)
 
 
-# Plot 2D regressions to visualise feature relationships
-for e in enumerate(x_train.columns):
-    r_forest.fit(x_train[e].values[:,np.newaxis], y_train.values)
-    plt.title("Best fit line")
-    plt.xlabel(str(e))
-    plt.ylabel('Price')
-    plt.scatter(x_train[e].values[:,np.newaxis], y_train)
-    plt.plot(x_train[e].values[:,np.newaxis], r_forest.predict(x_train[e].values[:,np.newaxis]),color='r')
-    plt.show()
+# # Plot 2D regressions to visualise feature relationships
+# for e in enumerate(x_train.columns):
+#     r_forest.fit(x_train[e].values[:,np.newaxis], y_train.values)
+#     plt.title("Best fit line")
+#     plt.xlabel(str(e))
+#     plt.ylabel('Price')
+#     plt.scatter(x_train[e].values[:,np.newaxis], y_train)
+#     plt.plot(x_train[e].values[:,np.newaxis], r_forest.predict(x_train[e].values[:,np.newaxis]),color='r')
+#     plt.show()
