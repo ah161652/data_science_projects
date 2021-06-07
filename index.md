@@ -1,7 +1,7 @@
 ---
 layout: home
 search_exclude: true
-image: images/logo.png
+image: 
 ---
 
 ## Welcome to my project library!
@@ -14,7 +14,7 @@ These are all coded in Python, with the aid of various packages such as NumPy, P
 
 Below is a list of my projects:
 
-- [Regression: Prediciting house prices](data_science_projects/Regression/regression.ipynb)
+- Regression: Prediciting house prices
 - Classification
 - Clustering/Reccomender Systems
 - NLP
@@ -22,4 +22,4 @@ Below is a list of my projects:
 - OCR
 - Time Series Analysis
 
-# Posts
+
