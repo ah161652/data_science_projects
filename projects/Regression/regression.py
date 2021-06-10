@@ -167,12 +167,19 @@ new_pred = r_forest.predict([np.array(x_test).mean(axis=0)])
 print(new_pred)
 
 
-# Plot 2D regressions to visualise feature relationships
-for i, e in enumerate(x_train.columns):
-    lr.fit(x_train[e].values[:,np.newaxis], y_train.values)
-    plt.title("Best fit line")
-    plt.xlabel(str(e))
-    plt.ylabel('Price')
-    plt.scatter(x_train[e].values[:,np.newaxis], y_train)
-    plt.plot(x_train[e].values[:,np.newaxis], lr.predict(x_train[e].values[:,np.newaxis]),color='r')
-    plt.show()
+# Feature importances
+feature_importances = r_forest.feature_importances_
+plt.bar([x for x in range(len(feature_importances))], feature_importances)
+
+importances_no_zips = feature_importances[0:17]
+
+relevant_features = df.columns.tolist()
+relevant_features.remove('id')
+relevant_features.remove('date')
+relevant_features.remove('price')
+relevant_features.remove('yr_built')
+relevant_features.remove('zipcode')
+relevant_features.append('age')
+
+fig = plt.figure(figsize=[30,10])
+plt.bar(relevant_features, importances_no_zips)
