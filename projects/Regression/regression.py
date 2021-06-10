@@ -157,7 +157,7 @@ print(grid.best_params_)
 
 
 # Use optimised model
-r_forest = RandomForestRegressor(criterion='mae', max_features='auto', n_estimators=100, n_jobs=-1)
+r_forest = RandomForestRegressor(criterion='mse', max_features='auto', n_estimators=100, n_jobs=-1)
 r_forest.fit(x_train,y_train)
 predictions = r_forest.predict(x_test)
 score = r2_score(y_test,predictions)
@@ -173,13 +173,9 @@ plt.bar([x for x in range(len(feature_importances))], feature_importances)
 
 importances_no_zips = feature_importances[0:17]
 
-relevant_features = df.columns.tolist()
-relevant_features.remove('id')
-relevant_features.remove('date')
-relevant_features.remove('price')
-relevant_features.remove('yr_built')
-relevant_features.remove('zipcode')
-relevant_features.append('age')
+relevant_features = x_train.columns.tolist()[0:17]
+
+print(relevant_features)
 
 fig = plt.figure(figsize=[30,10])
 plt.bar(relevant_features, importances_no_zips)
