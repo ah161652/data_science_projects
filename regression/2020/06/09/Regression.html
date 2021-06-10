@@ -106,10 +106,10 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#Visualise-the-distributions-of-each-feature">Visualise the distributions of each feature </a></li>
 <li class="toc-entry toc-h2"><a href="#Removing-outliers">Removing outliers </a></li>
 <li class="toc-entry toc-h2"><a href="#Preparing-the-training-and-test-datasets">Preparing the training and test datasets </a></li>
-<li class="toc-entry toc-h2"><a href="#Model-Selection">Model Selection </a></li>
+<li class="toc-entry toc-h2"><a href="#Model-selection">Model selection </a></li>
 <li class="toc-entry toc-h2"><a href="#Hyperparameter-tuning">Hyperparameter tuning </a></li>
-<li class="toc-entry toc-h2"><a href="#Final-Model">Final Model </a></li>
-<li class="toc-entry toc-h2"><a href="#Feature-Importance">Feature Importance </a></li>
+<li class="toc-entry toc-h2"><a href="#Final-model">Final model </a></li>
+<li class="toc-entry toc-h2"><a href="#Feature-importance">Feature importance </a></li>
 <li class="toc-entry toc-h2"><a href="#Conclusion">Conclusion </a></li>
 </ul><!--
 #################################################
@@ -10326,8 +10326,8 @@ L 597.65 7.2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Model-Selection">
-<a class="anchor" href="#Model-Selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Selection<a class="anchor-link" href="#Model-Selection"> </a>
+<h2 id="Model-selection">
+<a class="anchor" href="#Model-selection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model selection<a class="anchor-link" href="#Model-selection"> </a>
 </h2>
 <p>To start I defined a set of models which I wanted to include in my model evaluation. These included the ones I was most familiar with, or had heard good things about.</p>
 
@@ -10508,8 +10508,8 @@ Decision Tree: 0.742939379397493
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Final-Model">
-<a class="anchor" href="#Final-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final Model<a class="anchor-link" href="#Final-Model"> </a>
+<h2 id="Final-model">
+<a class="anchor" href="#Final-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final model<a class="anchor-link" href="#Final-model"> </a>
 </h2>
 <p>Now that I have selected the optimal model and tuned its parameters, its a simple process to train and use the model on the dataset. I've printed the R2 score here for completeness.</p>
 <p>Note that I have included an extra parameter 'n_jobs' which defines how many concurrent processes to run; -1 uses all available CPU cores so <em>shoud</em> speed it up!</p>
@@ -10603,8 +10603,8 @@ Decision Tree: 0.742939379397493
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Feature-Importance">
-<a class="anchor" href="#Feature-Importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Importance<a class="anchor-link" href="#Feature-Importance"> </a>
+<h2 id="Feature-importance">
+<a class="anchor" href="#Feature-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature importance<a class="anchor-link" href="#Feature-importance"> </a>
 </h2>
 <p>As an added bonus, I have taken a look at how significant each feature was in the model. Firstly, I plotted all feature importances, and saw that the zipcode features (which were numerous, at the end of the feature list) had low significance.</p>
 
