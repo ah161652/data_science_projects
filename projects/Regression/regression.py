@@ -63,8 +63,8 @@ df = df.drop(["date", "id", 'yr_built'],  axis=1)
 
 
 # # Visualise distributions of columns
-# df.hist(figsize=(30,20))
-# plt.show()
+df.hist(figsize=(30,20))
+plt.show()
 
 # Removing outliers
 zscore = []
@@ -81,11 +81,11 @@ for i in df['price']:
             outlier.append(i)
 
 
-# plt.figure(figsize = (10,6))
-# sns.distplot(zscore, kde=False)
-# plt.axvspan(xmin = -3 ,xmax= min(zscore),alpha=0.2, color='blue', label='Lower Outliers')
-# plt.axvspan(xmin = 3 ,xmax= max(zscore),alpha=0.2, color='red', label='Upper Outliers')
-# plt.show()
+plt.figure(figsize = (10,6))
+sns.distplot(zscore, kde=False)
+plt.axvspan(xmin = -3 ,xmax= min(zscore),alpha=0.2, color='blue', label='Lower Outliers')
+plt.axvspan(xmin = 3 ,xmax= max(zscore),alpha=0.2, color='red', label='Upper Outliers')
+plt.show()
 
 dj=[]
 for i in df.price:
@@ -97,7 +97,7 @@ for i in df.price:
 df['P'] = dj
 
 df = df.drop(df[df['P'] == 0.0].index) 
-X = df.drop(['price','P'], axis=1)
+X = df.drop(['price', 'P'], axis=1)
 Y = df['price']
 
 # Training/Test Split
@@ -134,42 +134,52 @@ models = [lr, ridge, lasso, e_net, r_forest, k_neighbours, d_tree]
 model_names = ['Linear', 'Ridge', 'Lasso', 'Elastic Net', 'Random Forest', 'KNN', 'Decision Tree']
 
 
-# # Validation testing to see which model is best
-# for i in range(len(models)):
-#     kfold = KFold(n_splits=7)
-#     result = cross_val_score(models[i], x_train, y_train, cv=kfold, scoring='r2')
-#     print(model_names[i] + ': ' + str(result.mean()) )
+# Validation testing to see which model is best
+for i in range(len(models)):
+    kfold = KFold(n_splits=7)
+    result = cross_val_score(models[i], x_train, y_train, cv=kfold, scoring='r2')
+    print(model_names[i] + ': ' + str(result.mean()) )
 
 
 
-# # Hyperparmeter tuning on best model
-# parameters = {
-#     'n_estimators': [50, 100, 200],
-#     'criterion': ['mse', 'mae'],
-#     'max_features': ['auto', 'sqrt', 'log2'],
-#             }
+# Hyperparmeter tuning on best model
+parameters = {
+    'n_estimators': [10, 50, 100],
+    'criterion': ['mse', 'mae'],
+    'max_features': ['auto', 'sqrt', 'log2'],
+            }
 
 
-# grid = GridSearchCV(r_forest, param_grid = parameters,n_jobs=-1, scoring='r2', verbose=2)
-# grid.fit(x_train, y_train)
-# print(grid.best_score_)
-# print(grid.best_params_)  
+grid = GridSearchCV(r_forest, param_grid = parameters,n_jobs=-1, scoring='r2', verbose=2)
+grid.fit(x_train, y_train)
+print(grid.best_score_)
+print(grid.best_params_)  
 
 
 # Use optimised model
-r_forest = RandomForestRegressor(criterion='mae', max_features='auto', n_estimators=100)
+r_forest = RandomForestRegressor(criterion='mae', max_features='auto', n_estimators=100, n_jobs=-1)
 r_forest.fit(x_train,y_train)
 predictions = r_forest.predict(x_test)
 score = r2_score(y_test,predictions)
 print(score)
 
+new_pred = r_forest.predict([np.array(x_test).mean(axis=0)])
+print(new_pred)
 
-# # Plot 2D regressions to visualise feature relationships
-# for e in enumerate(x_train.columns):
-#     r_forest.fit(x_train[e].values[:,np.newaxis], y_train.values)
-#     plt.title("Best fit line")
-#     plt.xlabel(str(e))
-#     plt.ylabel('Price')
-#     plt.scatter(x_train[e].values[:,np.newaxis], y_train)
-#     plt.plot(x_train[e].values[:,np.newaxis], r_forest.predict(x_train[e].values[:,np.newaxis]),color='r')
-#     plt.show()
+
+# Feature importances
+feature_importances = r_forest.feature_importances_
+plt.bar([x for x in range(len(feature_importances))], feature_importances)
+
+importances_no_zips = feature_importances[0:17]
+
+relevant_features = df.columns.tolist()
+relevant_features.remove('id')
+relevant_features.remove('date')
+relevant_features.remove('price')
+relevant_features.remove('yr_built')
+relevant_features.remove('zipcode')
+relevant_features.append('age')
+
+fig = plt.figure(figsize=[30,10])
+plt.bar(relevant_features, importances_no_zips)
