@@ -109,7 +109,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#Hyperparameter-tuning">Hyperparameter tuning </a></li>
 <li class="toc-entry toc-h2"><a href="#Final-model">Final model </a></li>
 <li class="toc-entry toc-h2"><a href="#Model-evaluation">Model evaluation </a></li>
-<li class="toc-entry toc-h2"><a href="#Increasing-Recall">Increasing Recall </a></li>
+<li class="toc-entry toc-h2"><a href="#Increasing-recall">Increasing recall </a></li>
 <li class="toc-entry toc-h2"><a href="#Feature-analysis">Feature analysis </a></li>
 <li class="toc-entry toc-h2"><a href="#Conclusion">Conclusion </a></li>
 </ul><!--
@@ -127,8 +127,9 @@ window.onload = wrap_img;
 <h2 id="Summary">
 <a class="anchor" href="#Summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary<a class="anchor-link" href="#Summary"> </a>
 </h2>
-<p>The aim of this project is to experiment with data manipulation, adequateley prepare a dataset for use and apply various classification models to the manipulated data in order to build an accurate classification model. I also employed hyperparameter tuning to the best model to further increase performance.</p>
-<p>All in all, I developed a classification model with accuracy and F1 scores both around 0.83. The recall score, which is particulary important for medical classification models, sat at 0.91.</p>
+<p>The aim of this project is to experiment with data manipulation, adequately prepare a dataset for use and apply various classification models to the manipulated data in order to build an accurate classification model. I also employed hyperparameter tuning to the best model to further increase performance.</p>
+<p>All in all, I developed a classification model with accuracy and F1 scores both around 0.83. The recall score, which is particulary important for medical classification models, sat at 0.91.
+<br><br></p>
 
 </div>
 </div>
@@ -186,6 +187,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -196,12 +198,6 @@ window.onload = wrap_img;
 <h2 id="Data-input-and-exploration">
 <a class="anchor" href="#Data-input-and-exploration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data input and exploration<a class="anchor-link" href="#Data-input-and-exploration"> </a>
 </h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Firstly, I read in the dataset and had a little explore of the features. This was a relativley small dataset of 303 entries, with 13 features contributing to the classification of either no heart disease (0) or heart disease (1). It was also good to see that the dataset was complete, with no null values across all entries, so there was no need for dealing with any null values.</p>
 
 </div>
@@ -214,7 +210,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./heart.csv"</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../projects/Classification/heart.csv"</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -231,9 +227,161 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>fbs</th>
+      <th>restecg</th>
+      <th>thalach</th>
+      <th>exang</th>
+      <th>oldpeak</th>
+      <th>slope</th>
+      <th>ca</th>
+      <th>thal</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>63</td>
+      <td>1</td>
+      <td>3</td>
+      <td>145</td>
+      <td>233</td>
+      <td>1</td>
+      <td>0</td>
+      <td>150</td>
+      <td>0</td>
+      <td>2.3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>130</td>
+      <td>250</td>
+      <td>0</td>
+      <td>1</td>
+      <td>187</td>
+      <td>0</td>
+      <td>3.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41</td>
+      <td>0</td>
+      <td>1</td>
+      <td>130</td>
+      <td>204</td>
+      <td>0</td>
+      <td>0</td>
+      <td>172</td>
+      <td>0</td>
+      <td>1.4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>56</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120</td>
+      <td>236</td>
+      <td>0</td>
+      <td>1</td>
+      <td>178</td>
+      <td>0</td>
+      <td>0.8</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>57</td>
+      <td>0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>354</td>
+      <td>0</td>
+      <td>1</td>
+      <td>163</td>
+      <td>1</td>
+      <td>0.6</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -246,34 +394,7 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;bound method NDFrame.head of      age  sex  cp  trestbps  chol  fbs  restecg  thalach  exang  oldpeak  \
-0     63    1   3       145   233    1        0      150      0      2.3   
-1     37    1   2       130   250    0        1      187      0      3.5   
-2     41    0   1       130   204    0        0      172      0      1.4   
-3     56    1   1       120   236    0        1      178      0      0.8   
-4     57    0   0       120   354    0        1      163      1      0.6   
-..   ...  ...  ..       ...   ...  ...      ...      ...    ...      ...   
-298   57    0   0       140   241    0        1      123      1      0.2   
-299   45    1   3       110   264    0        1      132      0      1.2   
-300   68    1   0       144   193    1        1      141      0      3.4   
-301   57    1   0       130   131    0        1      115      1      1.2   
-302   57    0   1       130   236    0        0      174      0      0.0   
-
-     slope  ca  thal  target  
-0        0   0     1       1  
-1        0   0     2       1  
-2        2   0     2       1  
-3        2   0     2       1  
-4        2   0     2       1  
-..     ...  ..   ...     ...  
-298      1   0     3       0  
-299      1   0     3       0  
-300      1   2     3       0  
-301      1   1     3       0  
-302      1   1     2       0  
-
-[303 rows x 14 columns]&gt;
-&lt;class 'pandas.core.frame.DataFrame'&gt;
+<pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 303 entries, 0 to 302
 Data columns (total 14 columns):
  #   Column    Non-Null Count  Dtype  
@@ -294,7 +415,6 @@ Data columns (total 14 columns):
  13  target    303 non-null    int64  
 dtypes: float64(1), int64(13)
 memory usage: 33.3 KB
-None
 </pre>
 </div>
 </div>
@@ -322,7 +442,7 @@ None
 <li>oldpeak: ST depression induced by exercise</li>
 <li>slope: The slope of the peak exercise ST segment</li>
 <li>ca: Number of major vessels (0-3) colored by fluoroscopy</li>
-<li>thal: Category of a blood disorder called thalassemia </li>
+<li>thal: Category of a blood disorder called thalassemia, where 3 is normal, and 0-2 are abnormal.</li>
 <li>target: Heart disease or not (1 = true, 0 = false)</li>
 </ul>
 
@@ -7512,6 +7632,7 @@ L 381.765625 7.2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -7569,7 +7690,7 @@ L 381.765625 7.2
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -7581,56 +7702,286 @@ L 381.765625 7.2
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>               age       sex        cp  trestbps      chol       fbs  \
-age       1.000000 -0.098447 -0.068653  0.279351  0.213678  0.121308   
-sex      -0.098447  1.000000 -0.049353 -0.056769 -0.197912  0.045032   
-cp       -0.068653 -0.049353  1.000000  0.047608 -0.076904  0.094444   
-trestbps  0.279351 -0.056769  0.047608  1.000000  0.123174  0.177531   
-chol      0.213678 -0.197912 -0.076904  0.123174  1.000000  0.013294   
-fbs       0.121308  0.045032  0.094444  0.177531  0.013294  1.000000   
-restecg  -0.116211 -0.058196  0.044421 -0.114103 -0.151040 -0.084189   
-thalach  -0.398522 -0.044020  0.295762 -0.046698 -0.009940 -0.008567   
-exang     0.096801  0.141664 -0.394280  0.067616  0.067023  0.025665   
-oldpeak   0.210013  0.096093 -0.149230  0.193216  0.053952  0.005747   
-slope    -0.168814 -0.030711  0.119717 -0.121475 -0.004038 -0.059894   
-ca        0.276326  0.118261 -0.181053  0.101389  0.070511  0.137979   
-thal      0.068001  0.210041 -0.161736  0.062210  0.098803 -0.032019   
-target   -0.225439 -0.280937  0.433798 -0.144931 -0.085239 -0.028046   
 
-           restecg   thalach     exang   oldpeak     slope        ca  \
-age      -0.116211 -0.398522  0.096801  0.210013 -0.168814  0.276326   
-sex      -0.058196 -0.044020  0.141664  0.096093 -0.030711  0.118261   
-cp        0.044421  0.295762 -0.394280 -0.149230  0.119717 -0.181053   
-trestbps -0.114103 -0.046698  0.067616  0.193216 -0.121475  0.101389   
-chol     -0.151040 -0.009940  0.067023  0.053952 -0.004038  0.070511   
-fbs      -0.084189 -0.008567  0.025665  0.005747 -0.059894  0.137979   
-restecg   1.000000  0.044123 -0.070733 -0.058770  0.093045 -0.072042   
-thalach   0.044123  1.000000 -0.378812 -0.344187  0.386784 -0.213177   
-exang    -0.070733 -0.378812  1.000000  0.288223 -0.257748  0.115739   
-oldpeak  -0.058770 -0.344187  0.288223  1.000000 -0.577537  0.222682   
-slope     0.093045  0.386784 -0.257748 -0.577537  1.000000 -0.080155   
-ca       -0.072042 -0.213177  0.115739  0.222682 -0.080155  1.000000   
-thal     -0.011981 -0.096439  0.206754  0.210244 -0.104764  0.151832   
-target    0.137230  0.421741 -0.436757 -0.430696  0.345877 -0.391724   
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-              thal    target  
-age       0.068001 -0.225439  
-sex       0.210041 -0.280937  
-cp       -0.161736  0.433798  
-trestbps  0.062210 -0.144931  
-chol      0.098803 -0.085239  
-fbs      -0.032019 -0.028046  
-restecg  -0.011981  0.137230  
-thalach  -0.096439  0.421741  
-exang     0.206754 -0.436757  
-oldpeak   0.210244 -0.430696  
-slope    -0.104764  0.345877  
-ca        0.151832 -0.391724  
-thal      1.000000 -0.344029  
-target   -0.344029  1.000000  
-</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>fbs</th>
+      <th>restecg</th>
+      <th>thalach</th>
+      <th>exang</th>
+      <th>oldpeak</th>
+      <th>slope</th>
+      <th>ca</th>
+      <th>thal</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>age</th>
+      <td>1.000000</td>
+      <td>-0.098447</td>
+      <td>-0.068653</td>
+      <td>0.279351</td>
+      <td>0.213678</td>
+      <td>0.121308</td>
+      <td>-0.116211</td>
+      <td>-0.398522</td>
+      <td>0.096801</td>
+      <td>0.210013</td>
+      <td>-0.168814</td>
+      <td>0.276326</td>
+      <td>0.068001</td>
+      <td>-0.225439</td>
+    </tr>
+    <tr>
+      <th>sex</th>
+      <td>-0.098447</td>
+      <td>1.000000</td>
+      <td>-0.049353</td>
+      <td>-0.056769</td>
+      <td>-0.197912</td>
+      <td>0.045032</td>
+      <td>-0.058196</td>
+      <td>-0.044020</td>
+      <td>0.141664</td>
+      <td>0.096093</td>
+      <td>-0.030711</td>
+      <td>0.118261</td>
+      <td>0.210041</td>
+      <td>-0.280937</td>
+    </tr>
+    <tr>
+      <th>cp</th>
+      <td>-0.068653</td>
+      <td>-0.049353</td>
+      <td>1.000000</td>
+      <td>0.047608</td>
+      <td>-0.076904</td>
+      <td>0.094444</td>
+      <td>0.044421</td>
+      <td>0.295762</td>
+      <td>-0.394280</td>
+      <td>-0.149230</td>
+      <td>0.119717</td>
+      <td>-0.181053</td>
+      <td>-0.161736</td>
+      <td>0.433798</td>
+    </tr>
+    <tr>
+      <th>trestbps</th>
+      <td>0.279351</td>
+      <td>-0.056769</td>
+      <td>0.047608</td>
+      <td>1.000000</td>
+      <td>0.123174</td>
+      <td>0.177531</td>
+      <td>-0.114103</td>
+      <td>-0.046698</td>
+      <td>0.067616</td>
+      <td>0.193216</td>
+      <td>-0.121475</td>
+      <td>0.101389</td>
+      <td>0.062210</td>
+      <td>-0.144931</td>
+    </tr>
+    <tr>
+      <th>chol</th>
+      <td>0.213678</td>
+      <td>-0.197912</td>
+      <td>-0.076904</td>
+      <td>0.123174</td>
+      <td>1.000000</td>
+      <td>0.013294</td>
+      <td>-0.151040</td>
+      <td>-0.009940</td>
+      <td>0.067023</td>
+      <td>0.053952</td>
+      <td>-0.004038</td>
+      <td>0.070511</td>
+      <td>0.098803</td>
+      <td>-0.085239</td>
+    </tr>
+    <tr>
+      <th>fbs</th>
+      <td>0.121308</td>
+      <td>0.045032</td>
+      <td>0.094444</td>
+      <td>0.177531</td>
+      <td>0.013294</td>
+      <td>1.000000</td>
+      <td>-0.084189</td>
+      <td>-0.008567</td>
+      <td>0.025665</td>
+      <td>0.005747</td>
+      <td>-0.059894</td>
+      <td>0.137979</td>
+      <td>-0.032019</td>
+      <td>-0.028046</td>
+    </tr>
+    <tr>
+      <th>restecg</th>
+      <td>-0.116211</td>
+      <td>-0.058196</td>
+      <td>0.044421</td>
+      <td>-0.114103</td>
+      <td>-0.151040</td>
+      <td>-0.084189</td>
+      <td>1.000000</td>
+      <td>0.044123</td>
+      <td>-0.070733</td>
+      <td>-0.058770</td>
+      <td>0.093045</td>
+      <td>-0.072042</td>
+      <td>-0.011981</td>
+      <td>0.137230</td>
+    </tr>
+    <tr>
+      <th>thalach</th>
+      <td>-0.398522</td>
+      <td>-0.044020</td>
+      <td>0.295762</td>
+      <td>-0.046698</td>
+      <td>-0.009940</td>
+      <td>-0.008567</td>
+      <td>0.044123</td>
+      <td>1.000000</td>
+      <td>-0.378812</td>
+      <td>-0.344187</td>
+      <td>0.386784</td>
+      <td>-0.213177</td>
+      <td>-0.096439</td>
+      <td>0.421741</td>
+    </tr>
+    <tr>
+      <th>exang</th>
+      <td>0.096801</td>
+      <td>0.141664</td>
+      <td>-0.394280</td>
+      <td>0.067616</td>
+      <td>0.067023</td>
+      <td>0.025665</td>
+      <td>-0.070733</td>
+      <td>-0.378812</td>
+      <td>1.000000</td>
+      <td>0.288223</td>
+      <td>-0.257748</td>
+      <td>0.115739</td>
+      <td>0.206754</td>
+      <td>-0.436757</td>
+    </tr>
+    <tr>
+      <th>oldpeak</th>
+      <td>0.210013</td>
+      <td>0.096093</td>
+      <td>-0.149230</td>
+      <td>0.193216</td>
+      <td>0.053952</td>
+      <td>0.005747</td>
+      <td>-0.058770</td>
+      <td>-0.344187</td>
+      <td>0.288223</td>
+      <td>1.000000</td>
+      <td>-0.577537</td>
+      <td>0.222682</td>
+      <td>0.210244</td>
+      <td>-0.430696</td>
+    </tr>
+    <tr>
+      <th>slope</th>
+      <td>-0.168814</td>
+      <td>-0.030711</td>
+      <td>0.119717</td>
+      <td>-0.121475</td>
+      <td>-0.004038</td>
+      <td>-0.059894</td>
+      <td>0.093045</td>
+      <td>0.386784</td>
+      <td>-0.257748</td>
+      <td>-0.577537</td>
+      <td>1.000000</td>
+      <td>-0.080155</td>
+      <td>-0.104764</td>
+      <td>0.345877</td>
+    </tr>
+    <tr>
+      <th>ca</th>
+      <td>0.276326</td>
+      <td>0.118261</td>
+      <td>-0.181053</td>
+      <td>0.101389</td>
+      <td>0.070511</td>
+      <td>0.137979</td>
+      <td>-0.072042</td>
+      <td>-0.213177</td>
+      <td>0.115739</td>
+      <td>0.222682</td>
+      <td>-0.080155</td>
+      <td>1.000000</td>
+      <td>0.151832</td>
+      <td>-0.391724</td>
+    </tr>
+    <tr>
+      <th>thal</th>
+      <td>0.068001</td>
+      <td>0.210041</td>
+      <td>-0.161736</td>
+      <td>0.062210</td>
+      <td>0.098803</td>
+      <td>-0.032019</td>
+      <td>-0.011981</td>
+      <td>-0.096439</td>
+      <td>0.206754</td>
+      <td>0.210244</td>
+      <td>-0.104764</td>
+      <td>0.151832</td>
+      <td>1.000000</td>
+      <td>-0.344029</td>
+    </tr>
+    <tr>
+      <th>target</th>
+      <td>-0.225439</td>
+      <td>-0.280937</td>
+      <td>0.433798</td>
+      <td>-0.144931</td>
+      <td>-0.085239</td>
+      <td>-0.028046</td>
+      <td>0.137230</td>
+      <td>0.421741</td>
+      <td>-0.436757</td>
+      <td>-0.430696</td>
+      <td>0.345877</td>
+      <td>-0.391724</td>
+      <td>-0.344029</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -7642,6 +7993,7 @@ target   -0.344029  1.000000
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -7703,15 +8055,224 @@ target   -0.344029  1.000000
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next I needed to deal with all the categorical features in the dataset. These were the sex, fbs, restecg, exang, slope and thal features. Note that the cp and ca features look categorical, but they are ordinal, as they have a natural ordering (increasing severity of chest pain and number of highlighted bllod vessels) so I have kept these are continious variables, albeit accross a small range.</p>
-<p>I used one-hot encoding to split each categorical feature into a series of new binary features which are more easily interpreted by many models. Some of the categories were alrady ordinal (have a antural ordering), but I have still one-hot encoded these as I am not aware of any negatives to this approach. I've printed the x_train dataframe to show what this has done.</p>
+<p>Next I needed to deal with all the categorical features in the dataset. These were the sex, fbs, restecg, exang, slope and thal features. Note that the cp and ca features look categorical, but they are ordinal, as they have a natural ordering (increasing severity of chest pain and number of highlighted blood vessels) so I have kept these as continious variables, albeit accross a small range.</p>
+<p>I used one-hot encoding to split each categorical feature into a series of new binary features which are more easily interpreted by many models. Some of the categories were already ordinal (have a natural ordering), but I have still one-hot encoded these as I am not aware of any negatives to this approach.</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>thalach</th>
+      <th>oldpeak</th>
+      <th>ca</th>
+      <th>sex_0</th>
+      <th>sex_1</th>
+      <th>fbs_0</th>
+      <th>fbs_1</th>
+      <th>restecg_0</th>
+      <th>restecg_1</th>
+      <th>restecg_2</th>
+      <th>exang_0</th>
+      <th>exang_1</th>
+      <th>slope_0</th>
+      <th>slope_1</th>
+      <th>slope_2</th>
+      <th>thal_0</th>
+      <th>thal_1</th>
+      <th>thal_2</th>
+      <th>thal_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>95</th>
+      <td>53</td>
+      <td>0</td>
+      <td>142</td>
+      <td>226</td>
+      <td>111</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>47</td>
+      <td>2</td>
+      <td>130</td>
+      <td>253</td>
+      <td>179</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>53</td>
+      <td>0</td>
+      <td>140</td>
+      <td>203</td>
+      <td>155</td>
+      <td>3.1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>59</td>
+      <td>0</td>
+      <td>110</td>
+      <td>239</td>
+      <td>142</td>
+      <td>1.2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>45</td>
+      <td>1</td>
+      <td>128</td>
+      <td>308</td>
+      <td>170</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -7779,6 +8340,14 @@ target   -0.344029  1.000000
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -7920,12 +8489,12 @@ Support Vector Classifier: 0.6367127496159755
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The results were interesting. If I ran the above code without changing anything then logistic regression came out on top, with an accuracy of 88 and an F1 score of 89.</p>
+<p>The results were interesting. If I ran the above code without changing anything then logistic regression came out on top, with an accuracy of 84 and an F1 score of 85.</p>
 <p>If I removed the normalisation of the variables, I saw similar results.</p>
 <p>If I removed the one-hot encoding but kept the normalisation the logistic regression classifier maintained its peformance, and was rivalled by naive bayes for both accuracy and F1 score.</p>
 <p>If I removed normalisation and one hot encoding there was a slight hit to the peformance of the logistic regression model, and the naive bayes model came out on top with 82 accuracy and 84 F1.</p>
 <p>As such, it was a toss up between naive bayes with no normalisaton or one-hot encoding, vs logistic regression with the above two steps enabled. I decided to stick with the code I had already written and make use of the logistic regression as this seemed to be the most consistent with some further repeated tests.</p>
-<p>I believe the Naive Bayes classifier faltered with the one hot encoding enabled as I was using a gaussian Naive Bayes algorithm, which isn't best suited with alot of binary features. If I changed the Naive Bayes implementation to a Bernoulli Naive Bayes implementation then i received slightly better results, but still not as good as logisitic regression. I put this down to Bernoulli handling binary features well, but there are still plentyl of non binary features in the dataset.</p>
+<p>I believe the Naive Bayes classifier faltered with the one hot encoding enabled as I was using a gaussian Naive Bayes algorithm, which isn't best suited with alot of binary features. If I changed the Naive Bayes implementation to a Bernoulli Naive Bayes implementation then I received slightly better results, but still not as good as logisitic regression. I put this down to Bernoulli handling binary features well, but there are still plenty of non binary features in the dataset.</p>
 <p>Final decision: Logistic regression classifier.</p>
 
 </div>
@@ -7934,6 +8503,7 @@ Support Vector Classifier: 0.6367127496159755
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -7973,7 +8543,7 @@ Support Vector Classifier: 0.6367127496159755
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next, I used GridSearchCV to find the optimal set of my selected parameters; this turned out to be the 'l1' and 'liblinear'. The scoring I was comapring against was recall, as this is for medical classification I want as high a recall score as possible.</p>
+<p>Next, I used GridSearchCV to find the optimal set of my selected parameters; this turned out to be the 'l1' and 'liblinear'. The scoring I was comapring against was recall, as for medical classification I want as high a recall score as possible.</p>
 
 </div>
 </div>
@@ -8021,6 +8591,7 @@ Support Vector Classifier: 0.6367127496159755
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -8084,6 +8655,7 @@ Precision: 0.78
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -8094,7 +8666,7 @@ Precision: 0.78
 <h2 id="Model-evaluation">
 <a class="anchor" href="#Model-evaluation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model evaluation<a class="anchor-link" href="#Model-evaluation"> </a>
 </h2>
-<p>The model looks pretty good. 81% accuracy, F1 score of 82 and a nice high recall of 87, keeping the false negatives of heart disease down.</p>
+<p>The model looks pretty good. 81% accuracy, F1 score of 0.82 and a nice high recall of 0.87, keeping the false negatives of heart disease down.</p>
 <p>I've visualised the confusion matrix and ROC plot below to see what the split of predictions is.</p>
 
 </div>
@@ -9946,6 +10518,7 @@ z
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -9953,8 +10526,8 @@ z
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Increasing-Recall">
-<a class="anchor" href="#Increasing-Recall" aria-hidden="true"><span class="octicon octicon-link"></span></a>Increasing Recall<a class="anchor-link" href="#Increasing-Recall"> </a>
+<h2 id="Increasing-recall">
+<a class="anchor" href="#Increasing-recall" aria-hidden="true"><span class="octicon octicon-link"></span></a>Increasing recall<a class="anchor-link" href="#Increasing-recall"> </a>
 </h2>
 <p>In order to boost the recall value, I am going to experiment with the 'C' parameter for logistic regression. This is the inverse of regularisation strength, with smaller values normally leading to a greater recall. The default is 1, so let's lower it as see what happens.</p>
 
@@ -10749,6 +11322,14 @@ z
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>With the reduced C value I can get the recall to 91 and the false negative rate to under 10% of true negatives. That is pretty good for a normal classification model, but this certainly wouldn't be up to scratch for a true medical model!</p>
 <p>To improve the model further I think that I would need to do some in depth feature engineering. This would require a level of medical domain knowledge which I do not posess, so for now I am going to accept my model as adequate.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
@@ -12221,10 +12802,18 @@ L 1712.482813 7.2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This led to some interesting insight. Firsly, age did not play a big part in the model, which may be of surprise. Chest pain severity was a big factor, as expected, and maximum heartrate and number of major blood vessels visible under fluoroscopy were strongly weighted against heart disease, which does make sense.</p>
-<p>Being male was a strong factor in favour of heart disease, and interestingly, was a stronger weight than the weight of being a woman factoring into not having heart disease.</p>
-<p>Finally, having a normal condition of thalassemia was a very strong factor in favour of no heart disease.</p>
+<p>This led to some interesting insight. Firsly, age did not play a big part in the model, which may be of surprise.</p>
+<p>Chest pain severity was a big factor, as expected, as was being male and having an abnormal thalassemia condition.</p>
+<p>Maximum heartrate and number of major blood vessels visible under fluoroscopy were strongly weighted against heart disease, which does make sense, as was being a woman and having a normal thalassemia condition.</p>
 <p>These results seem reasonable, however I am not a doctor, nor do I have any background in medicine, so my interpretation of these results is somewhat limitted. That is why data science is so interesting, as if I was truly tasked with this problem then I would have to become clued up on the subject matter in order to analyse in depth.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><br><br></p>
 
 </div>
 </div>
