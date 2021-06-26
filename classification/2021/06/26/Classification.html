@@ -81,7 +81,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      17 min read
+      16 min read
     
 </span></p>
 
@@ -103,7 +103,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#Libraries">Libraries </a></li>
 <li class="toc-entry toc-h2"><a href="#Data-input-and-exploration">Data input and exploration </a></li>
 <li class="toc-entry toc-h2"><a href="#Data-cleaning">Data cleaning </a></li>
-<li class="toc-entry toc-h2"><a href="#Preparing-the-train/test-set-and-dealing-with-categorical-variables">Preparing the train/test set and dealing with categorical variables </a></li>
+<li class="toc-entry toc-h2"><a href="#Preparing-the-train/test-sets-and-dealing-with-categorical-variables">Preparing the train/test sets and dealing with categorical variables </a></li>
 <li class="toc-entry toc-h2"><a href="#Data-normalisation">Data normalisation </a></li>
 <li class="toc-entry toc-h2"><a href="#Model-selection">Model selection </a></li>
 <li class="toc-entry toc-h2"><a href="#Hyperparameter-tuning">Hyperparameter tuning </a></li>
@@ -428,13 +428,13 @@ memory usage: 33.3 KB
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next, I wanted to visualise the distribution of the features. As you can see, there are a significant number of categorical features, which I will deal with later. For completeness, see below for the full desscription of the features:</p>
+<p>Next, I wanted to visualise the distribution of the features. As you can see, there are a significant number of categorical features, which I will deal with later. For completeness, see below for the full description of the features:</p>
 <ul>
 <li>age: Self explanatory</li>
 <li>sex: 0 is female, 1 is male</li>
 <li>cp: Chest pain type in increasing severity</li>
 <li>trestbps: Resting blood pressure upon hospital admission</li>
-<li>chol: Cholestoral levels</li>
+<li>chol: Cholesterol levels</li>
 <li>fbs: Was the patient fasting (1 = true, 0 = false)</li>
 <li>restecg: Category of resting electrocardiograph results</li>
 <li>thalach: Maximum heart rate</li>
@@ -6950,7 +6950,7 @@ L 819.042602 887.640574
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I also wanted to get a feel for if there is any inbalance in the dependent variable. As seen below, the dataset is slightly inbalanced, but not the to the degree that I should be concerned that my models will not be effective.</p>
+<p>I also wanted to get a feel for if there was any inbalance in the dependent variable. As seen below, the dataset is slightly inbalanced, but not the to the degree that I should be concerned that my models will not be effective.</p>
 
 </div>
 </div>
@@ -8001,10 +8001,11 @@ L 381.765625 7.2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Preparing-the-train/test-set-and-dealing-with-categorical-variables">
-<a class="anchor" href="#Preparing-the-train/test-set-and-dealing-with-categorical-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preparing the train/test set and dealing with categorical variables<a class="anchor-link" href="#Preparing-the-train/test-set-and-dealing-with-categorical-variables"> </a>
+<h2 id="Preparing-the-train/test-sets-and-dealing-with-categorical-variables">
+<a class="anchor" href="#Preparing-the-train/test-sets-and-dealing-with-categorical-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preparing the train/test sets and dealing with categorical variables<a class="anchor-link" href="#Preparing-the-train/test-sets-and-dealing-with-categorical-variables"> </a>
 </h2>
-<p>Before dealing with all the categorical values, I split the dataset into a feature dataframe and a dependent variable dataframe, before splitting these into test/train sets on a 70/30 % split.</p>
+<p>First, I needed to deal with all the categorical features in the dataset. These were the sex, fbs, restecg, exang, slope and thal features. Note that the cp and ca features look categorical, but they are ordinal, as they have a natural ordering (increasing severity of chest pain and number of highlighted blood vessels) so I have kept these as continious variables, albeit accross a small range.</p>
+<p>I used one-hot encoding to split each categorical feature into a series of new binary features which are more easily interpreted by many models.</p>
 
 </div>
 </div>
@@ -8035,6 +8036,14 @@ L 381.765625 7.2
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Once this was done it was a simple matter of splitting the dataframes into train an test sets, at a 70/30 split.</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -8052,15 +8061,6 @@ L 381.765625 7.2
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Next I needed to deal with all the categorical features in the dataset. These were the sex, fbs, restecg, exang, slope and thal features. Note that the cp and ca features look categorical, but they are ordinal, as they have a natural ordering (increasing severity of chest pain and number of highlighted blood vessels) so I have kept these as continious variables, albeit accross a small range.</p>
-<p>I used one-hot encoding to split each categorical feature into a series of new binary features which are more easily interpreted by many models. Some of the categories were already ordinal (have a natural ordering), but I have still one-hot encoded these as I am not aware of any negatives to this approach.</p>
-
-</div>
-</div>
-</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -8395,9 +8395,9 @@ L 381.765625 7.2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next, I created a set of cross-validation sets via the sklearn KFold validator class. This allowed me to generate a preliminary scores for each model via cross-validation, without having to fully test each model (which would have taken an age!).</p>
+<p>Next, I created a set of cross-validation sets via the sklearn KFold validator class. This allowed me to generate preliminary scores for each model via cross-validation, without having to fully test each model.</p>
 <p>I have chosen to evaluate my model with 4 scores; accuracy, F1 score, recall and precision. This is because accuracy is not always the best indicator of an effective classification model. The F1 score gives a balanced view of both precision and recall, but I have included recall and precision scores also, for completeness.</p>
-<p>As this is a medical classification model, we want to see a high recall rate in order to keep the false negative rates low, which can be dangerous in medical settings. If we can get a model that also has a high accuracy and F1 score, thereby reducing the number of false positives too, then even better!</p>
+<p>As this is a medical classification model, we want to see a high recall rate in order to keep the false negative rates low, which can be dangerous in medical settings. If we can get a model that also has high accuracy and F1 scores, thereby reducing the number of false positives too, then even better!</p>
 
 </div>
 </div>
@@ -8603,7 +8603,6 @@ Support Vector Classifier: 0.6367127496159755
 <a class="anchor" href="#Final-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final model<a class="anchor-link" href="#Final-model"> </a>
 </h2>
 <p>Now that I have selected the optimal model and tuned its parameters, its a simple process to train and use the model on the dataset. I've printed the F1 and accuracy scores here for completeness.</p>
-<p>Note that I have included an extra parameter 'n_jobs' which defines how many concurrent processes to run; -1 uses all available CPU cores so <em>shoud</em> speed it up!</p>
 
 </div>
 </div>
@@ -12803,8 +12802,8 @@ L 1712.482813 7.2
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This led to some interesting insight. Firsly, age did not play a big part in the model, which may be of surprise.</p>
-<p>Chest pain severity was a big factor, as expected, as was being male and having an abnormal thalassemia condition.</p>
-<p>Maximum heartrate and number of major blood vessels visible under fluoroscopy were strongly weighted against heart disease, which does make sense, as was being a woman and having a normal thalassemia condition.</p>
+<p>Chest pain severity was a big factor, as expected, as was being female and having an abnormal thalassemia condition.</p>
+<p>Maximum heartrate and number of major blood vessels visible under fluoroscopy were strongly weighted against heart disease, which does make sense, as was being a man and having a normal thalassemia condition.</p>
 <p>These results seem reasonable, however I am not a doctor, nor do I have any background in medicine, so my interpretation of these results is somewhat limitted. That is why data science is so interesting, as if I was truly tasked with this problem then I would have to become clued up on the subject matter in order to analyse in depth.</p>
 
 </div>
